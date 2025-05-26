@@ -1,0 +1,1 @@
+const statusSuccessful = 200;
