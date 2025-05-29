@@ -26,6 +26,7 @@ class ItemCacheImage extends StatelessWidget {
       imageBuilder: (context, imageProvider) {
         return _imageWidget(imageProvider);
       },
+      errorWidget: (context, url, error) => SizedBox(width: 100, height: 200, child: Icon(Icons.person),),
       placeholder: (context, url) {
         return Center(child: CircularProgressIndicator(color: AppColors.colorAccent,));
       },

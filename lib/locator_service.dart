@@ -33,6 +33,7 @@ Future<void> init() async {
 
   serviceLocator.registerFactory(
     () => PersonsCubit(
+      searchPersonUseCase: serviceLocator(),
       popularPersonsUseCase: serviceLocator(),
       errorHandler: serviceLocator(),
     ),
