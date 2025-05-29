@@ -114,11 +114,11 @@ class CustomSearchPersonDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         return Text(
           _suggestions[index],
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.colorAccent),
         );
       },
       separatorBuilder: (context, index) {
-        return Divider();
+        return Divider(color: AppColors.colorAccent,);
       },
       itemCount: _suggestions.length,
     );
@@ -135,6 +135,29 @@ class CustomSearchPersonDelegate extends SearchDelegate {
           fontWeight: FontWeight.bold,
         ),
       ),
+    );
+  }
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      // scaffoldBackgroundColor: Colors.black,
+      // canvasColor:Colors.green,
+      // cardColor:Colors.green,
+      // disabledColor:Colors.green,
+      // dividerColor:Colors.green,
+      // focusColor:Colors.green,
+      // highlightColor:Colors.green,
+      // hintColor:Colors.green,
+      // hoverColor:Colors.green,
+      // indicatorColor:Colors.green,
+      // primaryColor:Colors.green,
+      // primaryColorDark:Colors.green,
+      // primaryColorLight:Colors.green,
+      // secondaryHeaderColor:Colors.green,
+      // shadowColor:Colors.green,
+      splashColor:Colors.green,
+      // unselectedWidgetColor:Colors.green,
     );
   }
 }

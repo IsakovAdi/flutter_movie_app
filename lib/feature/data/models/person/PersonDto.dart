@@ -2,14 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:movie_app/feature/data/models/movie/movie_dto.dart';
 
 class PersonDto extends Equatable {
-  final bool adult;
-  final int gender;
-  final int id;
-  final String knownForDepartment;
-  final String name;
-  final double popularity;
-  final String image;
-  final List<MovieDto> knownForMovies;
+  final bool ? adult;
+  final int ? gender;
+  final int ? id;
+  final String ? knownForDepartment;
+  final String ? name;
+  final double ? popularity;
+  final String ? image;
+  final List<MovieDto> ? knownForMovies;
 
   const PersonDto({
     required this.adult,
@@ -24,14 +24,14 @@ class PersonDto extends Equatable {
 
   @override
   List<Object> get props => [
-    adult,
-    gender,
-    id,
-    knownForDepartment,
-    name,
-    popularity,
-    image,
-    knownForMovies,
+    adult??false,
+    gender??1,
+    id??0,
+    knownForDepartment??"",
+    name??"",
+    popularity??0,
+    image??"",
+    knownForMovies??[],
   ];
 
   factory PersonDto.fromJson(Map<String, dynamic> json) {
@@ -42,7 +42,7 @@ class PersonDto extends Equatable {
       knownForDepartment: json["known_for_department"],
       name: json["name"],
       popularity: json["popularity"],
-      image: json["profile_path"],
+      image: json["profile_path"]??"",
       knownForMovies:
           (json["known_for"] as List<dynamic>)
               .map((movie) => MovieDto.fromJson(movie))
