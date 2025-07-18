@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/comon/app_colors.dart';
-import 'package:movie_app/feature/domain/entities/people/person.dart';
-import 'package:movie_app/feature/presentation/widgets/person/person_card.dart';
+import 'package:movie_app/feature/domain/entities/movie/movie_entity.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/state/movies_state.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/upcoming_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/widgets/movie/movie_card.dart';
 
-import '../../bloc/all_persons_cubit/person_cubit.dart';
-import '../../bloc/all_persons_cubit/person_state.dart';
 import '../global_widgets.dart';
 
-class PersonListWidget extends StatelessWidget {
+class UpcomingMoviesListWidget extends StatelessWidget {
   final scrollController = ScrollController();
+
+  UpcomingMoviesListWidget({super.key});
 
   void _setupScrollController(BuildContext context) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          context.read<PersonsCubit>().loadPersons();
+          context.read<UpcomingMoviesCubit>().loadMovies();
         }
       }
     });
@@ -28,19 +28,18 @@ class PersonListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _setupScrollController(context);
 
-    return BlocBuilder<PersonsCubit, PersonState>(
+    return BlocBuilder<UpcomingMoviesCubit, MoviesState>(
       builder: (context, state) {
-        List<PersonEntity> personsList = [];
-
+        List<MovieEntity> movies = [];
         bool isLoading = false;
-        if (state is PersonsLoading && state.isFirstFetch) {
+        if (state is MoviesLoading && state.isFirstFetch) {
           return loadingIndicator();
-        } else if (state is PersonsLoading) {
-          personsList = state.oldPersonsList;
+        } else if (state is MoviesLoading) {
+          movies = state.oldMoviesList;
           isLoading = true;
-        } else if (state is PersonsLoaded) {
-          personsList = state.personsList;
-        } else if (state is PersonError) {
+        } else if (state is MoviesLoaded) {
+          movies = state.moviesList;
+        } else if (state is MoviesError) {
           return Center(
             child: Text(
               state.errorMessage,
@@ -57,10 +56,10 @@ class PersonListWidget extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
-          itemBuilder: (context, index){
-            if(index < personsList.length){
-              return PersonCard(personsList[index]);
-            }else{
+          itemBuilder: (context, index) {
+            if (index < movies.length) {
+              return MovieCard(movies[index]);
+            } else {
               Timer(Duration(milliseconds: 30), () {
                 scrollController.jumpTo(
                   scrollController.position.maxScrollExtent,
@@ -69,7 +68,7 @@ class PersonListWidget extends StatelessWidget {
               return loadingIndicator();
             }
           },
-          itemCount: personsList.length + (isLoading ? 1 : 0),
+          itemCount: movies.length + (isLoading ? 1 : 0),
         );
       },
     );

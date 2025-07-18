@@ -7,20 +7,6 @@ import 'package:movie_app/feature/domain/repository/movie/movie_repository.dart'
 
 import '../params/params.dart';
 
-// class GetPopularMoviesUseCase
-//     extends UseCase<MovieResponseEntity, PageMovieParams> {
-//   final MovieRepository repository;
-//
-//   GetPopularMoviesUseCase(this.repository);
-//
-//   @override
-//   Future<Either<Failure, MovieResponseEntity>> call(
-//     PageMovieParams params,
-//   ) async {
-//     return await repository.getPopularMovies(params.page);
-//   }
-// }
-
 class GetNowPlayingMoviesUseCase
     extends UseCase<List<MovieEntity>, PageParams> {
   final MovieRepository repository;
@@ -32,31 +18,45 @@ class GetNowPlayingMoviesUseCase
     return await repository.getNowPlayingMovies(params.page);
   }
 }
-//
-// class GetUpcomingMoviesUseCase
-//     extends UseCase<MovieResponseEntity, PageMovieParams> {
-//   final MovieRepository repository;
-//
-//   GetUpcomingMoviesUseCase(this.repository);
-//
-//   @override
-//   Future<Either<Failure, MovieResponseEntity>> call(
-//     PageMovieParams params,
-//   ) async {
-//     return await repository.getPopularMovies(params.page);
-//   }
-// }
-//
-// class GetTopRatedMoviesUseCase
-//     extends UseCase<MovieResponseEntity, PageMovieParams> {
-//   final MovieRepository repository;
-//
-//   GetTopRatedMoviesUseCase(this.repository);
-//
-//   @override
-//   Future<Either<Failure, MovieResponseEntity>> call(
-//     PageMovieParams params,
-//   ) async {
-//     return await repository.getPopularMovies(params.page);
-//   }
-// }
+
+class GetPopularMoviesUseCase
+    extends UseCase<List<MovieEntity>, PageParams> {
+  final MovieRepository repository;
+
+  GetPopularMoviesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<MovieEntity>>> call(
+    PageParams params,
+  ) async {
+    return await repository.getPopularMovies(params.page);
+  }
+}
+
+class GetUpcomingMoviesUseCase
+    extends UseCase<List<MovieEntity>, PageParams> {
+  final MovieRepository repository;
+
+  GetUpcomingMoviesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<MovieEntity>>> call(
+    PageParams params,
+  ) async {
+    return await repository.getUpcomingMovies(params.page);
+  }
+}
+
+class GetTopRatedMoviesUseCase
+    extends UseCase<List<MovieEntity>, PageParams> {
+  final MovieRepository repository;
+
+  GetTopRatedMoviesUseCase(this.repository);
+
+  @override
+  Future<Either<Failure, List<MovieEntity>>> call(
+    PageParams params,
+  ) async {
+    return await repository.getTopRatedMovies(params.page);
+  }
+}

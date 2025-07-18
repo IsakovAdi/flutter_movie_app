@@ -3,18 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/feature/domain/entities/movie/movie_entity.dart';
-import 'package:movie_app/feature/presentation/bloc/movie_cubit/movies_cubit.dart';
-import 'package:movie_app/feature/presentation/bloc/movie_cubit/movies_state.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/popular_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/state/movies_state.dart';
 import 'package:movie_app/feature/presentation/widgets/movie/movie_card.dart';
 
-class MovieListWidget extends StatelessWidget {
+import '../global_widgets.dart';
+
+class PopularMoviesListWidget extends StatelessWidget {
   final scrollController = ScrollController();
+
+  PopularMoviesListWidget({super.key});
 
   void _setupScrollController(BuildContext context) {
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         if (scrollController.position.pixels != 0) {
-          context.read<MoviesCubit>().loadMovies();
+          context.read<PopularMoviesCubit>().loadMovies();
         }
       }
     });
@@ -24,12 +28,12 @@ class MovieListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _setupScrollController(context);
 
-    return BlocBuilder<MoviesCubit, MoviesState>(
+    return BlocBuilder<PopularMoviesCubit, MoviesState>(
       builder: (context, state) {
         List<MovieEntity> movies = [];
         bool isLoading = false;
         if (state is MoviesLoading && state.isFirstFetch) {
-          return _loadingIndicator();
+          return loadingIndicator();
         } else if (state is MoviesLoading) {
           movies = state.oldMoviesList;
           isLoading = true;
@@ -61,19 +65,12 @@ class MovieListWidget extends StatelessWidget {
                   scrollController.position.maxScrollExtent,
                 );
               });
-              return _loadingIndicator();
+              return loadingIndicator();
             }
           },
           itemCount: movies.length + (isLoading ? 1 : 0),
         );
       },
-    );
-  }
-
-  Widget _loadingIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Center(child: CircularProgressIndicator()),
     );
   }
 }

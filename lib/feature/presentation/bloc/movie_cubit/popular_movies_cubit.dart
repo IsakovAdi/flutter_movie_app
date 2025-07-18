@@ -1,19 +1,19 @@
+import 'package:flutter/animation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_app/feature/domain/entities/movie/movie_entity.dart';
+import 'package:movie_app/feature/data/utils/remote_utils.dart';
+import 'package:movie_app/feature/domain/use_cases/movie/movie_use_cases.dart';
 import 'package:movie_app/feature/presentation/bloc/error_handler.dart';
-import 'package:movie_app/feature/presentation/bloc/movie_cubit/movies_state.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/state/movies_state.dart';
 
-import '../../../domain/use_cases/movie/movie_use_cases.dart';
+import '../../../domain/entities/movie/movie_entity.dart';
 import '../../../domain/use_cases/params/params.dart';
 
-
-
-class MoviesCubit extends Cubit<MoviesState> {
-  final GetNowPlayingMoviesUseCase nowPlayingMoviesUseCase;
+class PopularMoviesCubit extends Cubit<MoviesState>{
+  final GetPopularMoviesUseCase getPopularMoviesUseCase;
   final ErrorHandler errorHandler;
   int page = 1;
 
-  MoviesCubit({required this.nowPlayingMoviesUseCase, required this.errorHandler}) : super(MoviesEmpty());
+  PopularMoviesCubit({required this.getPopularMoviesUseCase, required this.errorHandler}):super(MoviesEmpty());
 
   void loadMovies() async {
     if (state is MoviesLoading) return;
@@ -25,13 +25,13 @@ class MoviesCubit extends Cubit<MoviesState> {
       oldMovies = currentState.moviesList;
     }
     emit(MoviesLoading(oldMovies, isFirstFetch: page == 1));
-    final failureOrMovies = await nowPlayingMoviesUseCase(
+    final failureOrMovies = await getPopularMoviesUseCase(
       PageParams(page: page),
     );
 
     failureOrMovies.fold(
-      (error) => emit(MoviesError(errorMessage: errorHandler.mapFailureToMessage(error))),
-      (list) {
+          (error) => emit(MoviesError(errorMessage: errorHandler.mapFailureToMessage(error))),
+          (list) {
         page++;
         final movies = (state as MoviesLoading).oldMoviesList;
         movies.addAll(list);
@@ -39,6 +39,4 @@ class MoviesCubit extends Cubit<MoviesState> {
       },
     );
   }
-
-
 }

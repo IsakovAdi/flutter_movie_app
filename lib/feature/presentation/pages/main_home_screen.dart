@@ -3,7 +3,7 @@ import 'package:movie_app/comon/app_colors.dart';
 import 'package:movie_app/feature/presentation/pages/movie/movies_page.dart';
 import 'package:movie_app/feature/presentation/pages/person/persons_page.dart';
 import 'package:movie_app/feature/presentation/pages/movie/search_movie_page.dart';
-import 'package:movie_app/feature/presentation/widgets/movie/movie_list_widget.dart';
+import 'package:movie_app/feature/presentation/widgets/movie/now_playing_movies_list_widget.dart';
 
 class MainHomePage extends StatefulWidget {
   const MainHomePage({super.key});

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/comon/app_colors.dart';
-import 'package:movie_app/feature/presentation/bloc/movie_cubit/movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/now_playing_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/popular_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/top_rated_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/upcoming_movies_cubit.dart';
 import 'package:movie_app/feature/presentation/bloc/search_persons_bloc/search_person_bloc.dart';
 
 import 'feature/presentation/bloc/all_persons_cubit/person_cubit.dart';
@@ -22,13 +25,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<MoviesCubit>(
-          create: (context) => di.serviceLocator<MoviesCubit>()..loadMovies(),
+        BlocProvider<NowPlayingMoviesCubit>(
+          create:
+              (context) =>
+                  di.serviceLocator<NowPlayingMoviesCubit>()..loadMovies(),
+        ),
+        BlocProvider<PopularMoviesCubit>(
+          create:
+              (context) =>
+                  di.serviceLocator<PopularMoviesCubit>()..loadMovies(),
+        ),
+        BlocProvider<TopRatedMoviesCubit>(
+          create:
+              (context) =>
+                  di.serviceLocator<TopRatedMoviesCubit>()..loadMovies(),
+        ),
+        BlocProvider<UpcomingMoviesCubit>(
+          create:
+              (context) =>
+                  di.serviceLocator<UpcomingMoviesCubit>()..loadMovies(),
         ),
         BlocProvider<PersonsCubit>(
           create: (context) => di.serviceLocator<PersonsCubit>()..loadPersons(),
         ),
-        BlocProvider<SearchPersonBloc>(create: (context) => di.serviceLocator<SearchPersonBloc>())
+        BlocProvider<SearchPersonBloc>(
+          create: (context) => di.serviceLocator<SearchPersonBloc>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Moview App',

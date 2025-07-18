@@ -9,7 +9,10 @@ import 'package:movie_app/feature/domain/repository/movie/movie_repository.dart'
 import 'package:movie_app/feature/domain/repository/person/person_repository.dart';
 import 'package:movie_app/feature/domain/use_cases/person/persons_use_case.dart';
 import 'package:movie_app/feature/presentation/bloc/error_handler.dart';
-import 'package:movie_app/feature/presentation/bloc/movie_cubit/movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/now_playing_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/popular_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/top_rated_movies_cubit.dart';
+import 'package:movie_app/feature/presentation/bloc/movie_cubit/upcoming_movies_cubit.dart';
 import 'package:movie_app/feature/presentation/bloc/search_persons_bloc/search_person_bloc.dart';
 
 import 'core/platform/network_info.dart';
@@ -25,8 +28,29 @@ Future<void> init() async {
 
   //  Bloc
   serviceLocator.registerFactory(
-    () => MoviesCubit(
+    () => NowPlayingMoviesCubit(
       nowPlayingMoviesUseCase: serviceLocator(),
+      errorHandler: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => PopularMoviesCubit(
+      getPopularMoviesUseCase: serviceLocator(),
+      errorHandler: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => TopRatedMoviesCubit(
+      getTopRatedMoviesUseCase: serviceLocator(),
+      errorHandler: serviceLocator(),
+    ),
+  );
+
+  serviceLocator.registerFactory(
+    () => UpcomingMoviesCubit(
+      getUpcomingMoviesUseCase: serviceLocator(),
       errorHandler: serviceLocator(),
     ),
   );
@@ -48,6 +72,18 @@ Future<void> init() async {
   // UseCases
   serviceLocator.registerLazySingleton(
     () => GetNowPlayingMoviesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => GetPopularMoviesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => GetTopRatedMoviesUseCase(serviceLocator()),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => GetUpcomingMoviesUseCase(serviceLocator()),
   );
 
   serviceLocator.registerLazySingleton(

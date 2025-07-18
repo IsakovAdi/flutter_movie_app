@@ -1,6 +1,6 @@
 import 'package:movie_app/feature/data/mappers/movie_mappers/movie_mapper.dart';
 import 'package:movie_app/feature/data/models/person/PersonDto.dart';
-`import 'package:movie_app/feature/domain/entities/movie/movie_entity.dart';
+import 'package:movie_app/feature/domain/entities/movie/movie_entity.dart';
 import 'package:movie_app/feature/domain/entities/people/person.dart';
 
 class PersonMapper {
